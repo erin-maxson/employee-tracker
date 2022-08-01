@@ -14,8 +14,27 @@ const menuQuestion = [
     }
 ]
 
-const employeeAddQuestions =
+const employeeAddQuestions = [
+    {
+        type:"input",
+        name:"first_name",
+        message:"Please provide the first name of the employee."
+
+    }
+]
 
 function menu(){
+    inquirer.prompt(menuQuestion)
+    .then(response=>{
+        if(response.menu==="View All Employees"){
+            viewEmployees()
+        }
+        else if(response.menu==="Add Employee"){
+            addEmployee()
+        }
+    })
+}
+
+function viewEmployees(){
 
 }
