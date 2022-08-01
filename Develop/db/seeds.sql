@@ -8,9 +8,10 @@ VALUES ("Finance"),
 
 INSERT INTO role(title, salary, department_id)
 VALUES ("Finance Lead", 200000,1),
+       ("Chief Financial Officer", 350000,1),
        ("Software Developer", 100000,2),
        ("Marketing Manager", 65000,3),
        ("Operations Manager", 80000,4)
 
 INSERT INTO employee(first_name, last_name, role_id, manager_id)
-VALUES ("Jim", "Boland")
+VALUES ('Jim', 'Boland',1,1),

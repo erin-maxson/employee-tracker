@@ -47,11 +47,13 @@ function viewEmployees(){
     FROM employee
     LEFT JOIN role ON role.id= employee.role_id
     LEFT JOIN department ON role.department_id=department.id
-    LEFT JOIN employee as mgr ON employee.id =  mgr.manager_id` (err,data)=>{
+    LEFT JOIN employee as mgr ON employee.id =  mgr.manager_id`, (err,data)=>{
         console.table(data)
     })
 }
 
 function addEmployee(){
-
+    db.query("Select title as name, id as value from role", (err, roleData)=>{
+    db.query(`CONCATfirst_name, " " , last_name) as name, id as value from employee where manager_id = null`)
+    })
 }
