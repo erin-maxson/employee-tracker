@@ -54,6 +54,6 @@ function viewEmployees(){
 
 function addEmployee(){
     db.query("Select title as name, id as value from role", (err, roleData)=>{
-    db.query(`CONCATfirst_name, " " , last_name) as name, id as value from employee where manager_id = null`)
+    db.query(`CONCATfirst_name, " " , last_name) as name, id as value from employee where manager_id is null`)
     })
 }
