@@ -15,7 +15,7 @@ const menuQuestion=[
         type:"list",
         name:"menu",
         message:"choose the following option:",
-        choices:["view all departments","view all roles","view all employees","add a department","add a role","add an employee","update an employee role"]
+        choices:["View all departments","View all roles","View all employees","Add a department","Add a role","Add an employee","Update an employee role"]
     }
 ]
 
@@ -26,14 +26,23 @@ const menuQuestion=[
 function menu(){
   inquirer.prompt(menuQuestion)
   .then(response=>{
-    if(response.menu==="view all employees"){
+    if(response.menu==="View all employees"){
         viewEmployees()
     }
-    else if(response.menu==="view all departments"){
+    else if(response.menu==="View all departments"){
         viewDepartments()
     }
-    else if(response.menu==="add an employee"){
+    else if(response.menu==="Add an employee"){
         addEmployees()
+    }
+    else if(response.menu==="Add a department"){
+        addDepartment()
+    }
+    else if(response.menu==="Add a role"){
+        addRole()
+    }
+    else if(response.menu==="Update an employee role"){
+        updateRole()
     }
 
   })
