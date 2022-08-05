@@ -19,10 +19,7 @@ const menuQuestion=[
     }
 ]
 
-
-
-
-
+// menu prompts
 function menu(){
   inquirer.prompt(menuQuestion)
   .then(response=>{
@@ -48,6 +45,8 @@ function menu(){
   })
     
 }
+
+// allows you to view the departments that are listed
 function viewDepartments(){
     db.query("select* from department", (err, data)=>{
         console.table(data)
@@ -55,6 +54,7 @@ function viewDepartments(){
     })
 }
 
+// allows you to add a new employee and their information
 function addEmployees(){
     db.query("select title as name, id as value from role", (er, roleData)=>{
 
@@ -69,22 +69,23 @@ function addEmployees(){
                 {
                     type:"input",
                     name:"last_name",
-                    message:"What is your first name?",
+                    message:"What is your last name?",
             
                 },
                 {
                     type:"list",
                     name:"role_id",
-                    message:"Choose the following role title",
+                    message:"Choose a role title.",
                     choices:roleData
                 },{
                     type:"list",
                     name:"manager_id",
-                    message:"Choose the following manager",
+                    message:"Choose a manager.",
                     choices:managerData
                 }
             
             ]
+            //ensures that you have all parameters met and then inserts the employee info into the employee table
             inquirer.prompt(employeeAddQuestions).then(response=>{
                 const parameters=[response.first_name,response.last_name,response.role_id, response.manager_id]
                 db.query("INSERT INTO employee (first_name,last_name,role_id,manager_id)VALUES(?,?,?,?)",parameters,(err, data)=>{
@@ -95,6 +96,7 @@ function addEmployees(){
            })
     })
 }
+// allows you to combine data from the employee and manager information into one table
 function viewEmployees(){
 db.query(`
 SELECT 
