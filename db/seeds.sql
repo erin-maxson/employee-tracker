@@ -6,12 +6,14 @@ VALUES ("Sales"),
 
 INSERT INTO role(title,salary, department_id)
 VALUES ("Sales Lead", 100000,1),
-       ("Salesperson", 100000,1),
+       ("Salesperson", 80000,1),
        ("Software Engineer", 120000,2);
 
 INSERT INTO employee(first_name,last_name,role_id )
-VALUES ("John", "Doe", 1),
-     ("Mike","Chan",2);
+VALUES ("John", "Doe", 0),
+     ("Mike","Chan", 1),
+     ("Ashley", "Rodriguez", 2)
+     
 
 
 UPDATE employee SET manager_id=1 WHERE id=2;
