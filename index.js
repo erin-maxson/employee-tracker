@@ -76,19 +76,19 @@ function addEmployees(){
                     type:"list",
                     name:"role_id",
                     message:"Choose a role title.",
-                    choices:roleData
+                    choices: roleData
                 },{
                     type:"list",
                     name:"manager_id",
                     message:"Choose a manager.",
-                    choices:managerData
+                    choices: managerData
                 }
             
             ]
             //ensures that you have all parameters met and then inserts the employee info into the employee table
             inquirer.prompt(employeeAddQuestions).then(response=>{
                 const parameters=[response.first_name,response.last_name,response.role_id, response.manager_id]
-                db.query("INSERT INTO employee (first_name,last_name,role_id,manager_id)VALUES(?,?,?,?)",parameters,(err, data)=>{
+                db.query("INSERT INTO employee (first_name, last_name, role_id, manager_id)VALUES(?,?,?,?)",parameters,(err, data)=>{
 
                     viewEmployees()
                 })
@@ -96,6 +96,7 @@ function addEmployees(){
            })
     })
 }
+
 // allows you to combine data from the employee and manager information into one table
 function viewEmployees(){
 db.query(`
@@ -112,8 +113,7 @@ LEFT JOIN role ON role.id= employee.role_id
 LEFT JOIN department ON role.department_id=department.id
 LEFT JOIN employee as mgr ON employee.manager_id =  mgr.id
 
-`,  (err,data)=>{
-    //   console.log(data)
+`,  (err,data)=> {
     console.table(data)
 
     menu()
