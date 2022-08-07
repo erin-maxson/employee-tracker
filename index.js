@@ -29,6 +29,9 @@ function menu(){
     else if(response.menu==="View all departments"){
         viewDepartments()
     }
+    else if(response.menu==="View all roles"){
+        viewRoles()
+    }
     else if(response.menu==="Add an employee"){
         addEmployees()
     }
@@ -53,6 +56,61 @@ function viewDepartments(){
         menu()
     })
 }
+
+// allows you to view all roles that are listed
+function viewRoles() {
+    db.query("select* from role", (err, data)=>{
+        console.table(data)
+        menu()
+    })
+}
+
+function viewEmployees() {
+    db.query("select* from employee", (err, data)=>{
+        console.table(data)
+        menu()
+    })
+}
+
+
+//adding roles
+function addRole(){
+    db.query("select title as name, id as value from role", (err, roleData)=>{
+
+           db.query(`select CONCAT(first_name, " " , last_name) as name,  id as value from employee where  manager_id is null `, (err, managerData)=>{
+            const employeeAddQuestions=[
+                {
+                    type:"input",
+                    name:"title",
+                    message:"What is the name of the role you'd like to add?",
+            
+                },
+                {
+                    type:"input",
+                    name:"salary",
+                    message:"What is the salary for this role?",
+            
+                },
+                {
+                    type:"list",
+                    name:"role_department",
+                    message:"What department does this role belong to?",
+                    choices: ["Sales","Engineering","Finance","Legal"]
+                }
+            
+            ]
+            //ensures that you have all parameters met and then inserts the employee info into the employee table
+            inquirer.prompt(employeeAddQuestions).then(response=>{
+                const parameters=[response.title,response.salary,response.role_department]
+                db.query("INSERT INTO role (title, salary, department_id)VALUES(?,?,?)",parameters,(err, data)=>{
+
+                    viewRoles()
+                })
+            })
+           })
+    })
+}
+
 
 // allows you to add a new employee and their information
 function addEmployees(){
