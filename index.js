@@ -49,6 +49,14 @@ function menu(){
     
 }
 
+// allows you to view employees that are listed
+function viewEmployees() {
+    db.query("select* from employee", (err, data)=>{
+        console.table(data)
+        menu()
+    })
+}
+
 // allows you to view the departments that are listed
 function viewDepartments(){
     db.query("select* from department", (err, data)=>{
@@ -65,10 +73,73 @@ function viewRoles() {
     })
 }
 
-function viewEmployees() {
-    db.query("select* from employee", (err, data)=>{
-        console.table(data)
-        menu()
+
+// allows you to add a new employee and their information
+function addEmployees(){
+    db.query("select title as name, id as value from role", (er, roleData)=>{
+
+           db.query(`select CONCAT(first_name, " " , last_name) as name,  id as value from employee where  manager_id is null `, (err, managerData)=>{
+            const employeeAddQuestions=[
+                {
+                    type:"input",
+                    name:"first_name",
+                    message:"What is your first name?",
+            
+                },
+                {
+                    type:"input",
+                    name:"last_name",
+                    message:"What is your last name?",
+            
+                },
+                {
+                    type:"list",
+                    name:"role_id",
+                    message:"Choose a role title.",
+                    choices: roleData
+                },{
+                    type:"list",
+                    name:"manager_id",
+                    message:"Choose a manager.",
+                    choices: managerData
+                }
+            
+            ]
+            //ensures that you have all parameters met and then inserts the employee info into the employee table
+            inquirer.prompt(employeeAddQuestions).then(response=>{
+                const parameters=[response.first_name,response.last_name,response.role_id, response.manager_id]
+                db.query("INSERT INTO employee (first_name, last_name, role_id, manager_id)VALUES(?,?,?,?)",parameters,(err, data)=>{
+
+                    viewEmployees()
+                })
+            })
+           })
+    })
+}
+
+// allows you to add a new employee and their information
+function addDepartment(){
+    db.query("select title as name, id as value from role", (er, roleData)=>{
+
+           db.query(`select CONCAT(first_name, " " , last_name) as name,  id as value from employee where  manager_id is null `, (err, managerData)=>{
+            const employeeAddQuestions=[
+                {
+                    type:"input",
+                    name:"department_name",
+                    message:"What is the name of the department you'd like to add?",
+            
+                }
+            
+            ]
+            //ensures that you have all parameters met and then inserts the employee info into the employee table
+            inquirer.prompt(employeeAddQuestions).then(response=>{
+                const parameters=[response.department_name]
+                db.query("INSERT INTO department (name)VALUES(?)",parameters,(err, data)=>{
+
+                    viewDepartments()
+                })
+            })
+           })
     })
 }
 
@@ -111,35 +182,25 @@ function addRole(){
     })
 }
 
-
 // allows you to add a new employee and their information
-function addEmployees(){
+function updateEmployee(){
     db.query("select title as name, id as value from role", (er, roleData)=>{
 
            db.query(`select CONCAT(first_name, " " , last_name) as name,  id as value from employee where  manager_id is null `, (err, managerData)=>{
             const employeeAddQuestions=[
                 {
-                    type:"input",
-                    name:"first_name",
-                    message:"What is your first name?",
+                    type:"list",
+                    name:"employee_name",
+                    message: "What is the employee's name that you'd like to update?",
+                    choices:["John Doe", "Mike Chan", "Ashley Rodriguez", "Kevin Tupik", "Kunal Singh", "Malia Brown", "Sarah Lourd", "Tom Allen"]
             
                 },
                 {
                     type:"input",
-                    name:"last_name",
-                    message:"What is your last name?",
+                    name:"title",
+                    message:"What is the employee's new role title?",
+                    choices: ["Sales Lead", "Salesperson", "Lead Engineer", "Software Engineer", "Account Manager", "Accountant", "Legal Team Lead", "Lawyer"]
             
-                },
-                {
-                    type:"list",
-                    name:"role_id",
-                    message:"Choose a role title.",
-                    choices: roleData
-                },{
-                    type:"list",
-                    name:"manager_id",
-                    message:"Choose a manager.",
-                    choices: managerData
                 }
             
             ]
