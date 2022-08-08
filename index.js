@@ -5,7 +5,7 @@ require("console.table")
 
 db.connect( ()=>{
     menu()
-})
+});
 /*
 view all departments, view all roles, view all employees, add a department, add a role, add an employee, and update an employee role
 
@@ -119,7 +119,7 @@ function addEmployees(){
 
 // allows you to add a new employee and their information
 function addDepartment(){
-    db.query("select title as name, id as value from role", (er, roleData)=>{
+    db.query("select title as name, id as value from role", (err, roleData)=>{
 
            db.query(`select CONCAT(first_name, " " , last_name) as name,  id as value from employee where  manager_id is null `, (err, managerData)=>{
             const employeeAddQuestions=[
