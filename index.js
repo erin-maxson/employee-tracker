@@ -23,6 +23,7 @@ const menuQuestion=[
 function menu(){
   inquirer.prompt(menuQuestion)
   .then(response=>{
+    console.log(response)
     if(response.menu==="View all employees"){
         viewEmployees()
     }
@@ -60,6 +61,7 @@ function viewEmployees() {
 // allows you to view the departments that are listed
 function viewDepartments(){
     db.query("select* from department", (err, data)=>{
+        console.log(data)
         console.table(data)
         menu()
     })
